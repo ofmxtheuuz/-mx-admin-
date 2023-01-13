@@ -1,0 +1,93 @@
+<h1>{{id}}</h1>
+
+<button class="btn btn-primary" id="ban">
+    Banir
+</button>
+<button class="btn btn-primary" id="kick">
+    Kickar
+</button>
+<button class="btn btn-primary" id="print">
+    Tirar print
+</button>
+<button class="btn btn-primary" id="money">
+    Dar dinheiro
+</button>
+<button class="btn btn-primary" id="god">
+    Reviver
+</button>
+<div id="img"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"
+    integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    var url_string = window.location.href;
+    var url = new URL(url_string);
+    const id = url.searchParams.get("tkn_id");
+
+    $("#kick").click(() => {
+        let reason = prompt("Motivo do kick")
+
+        axios({
+            method: 'post',
+            url: `http://131.196.197.79:3500/request/kick`,
+            data: {
+                id: id,
+                reason: reason
+            }
+        }).then((res) => {
+
+        })
+    })
+
+    $("#ban").click(() => {
+        axios({
+            method: 'post',
+            url: `http://131.196.197.79:3500/request/ban`,
+            data: {
+                id: id
+            }
+        }).then((res) => {
+
+        })
+    })
+
+    $("#print").click(() => {
+        axios({
+            method: 'post',
+            url: `http://131.196.197.79:3500/request/img`,
+            data: {
+                id: id
+            }
+        }).then((res) => {
+            let img = $("#img")
+            img.html("")
+            img.append(`<img src="${res.data}" style="width: 1296px" class="mt-3">`)
+        })
+    })
+
+    $("#money").click(() => {
+        let amount = prompt("Quantidade")
+        axios({
+            method: 'post',
+            url: `http://131.196.197.79:3500/give/money`,
+            data: {
+                id: id,
+                amount: amount
+            }
+        }).then((res) => {
+        })
+    })
+
+    $("#god").click(() => {
+        axios({
+            method: 'post',
+            url: `http://131.196.197.79:3500/give/god`,
+            data: {
+                id: id,
+            }
+        }).then((res) => {
+        })
+    })
+</script>
